@@ -154,10 +154,12 @@ function sum_carts($carts){
 function validate_cart_purchase($carts){
   //カートの中身がなかったら
   if(count($carts) === 0){
+    //エラーメッセージを表示
     set_error('カートに商品が入っていません。');
     return false;
   }
 
+  //カートの中身を$cartに代入
   foreach($carts as $cart){
     //itemがopenでなかったら
     if(is_open($cart) === false){

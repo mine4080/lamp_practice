@@ -44,34 +44,39 @@ function get_session($name){
   return '';
 }
 
-//$_SESSIOMN[$name] に $valueを入れる
+//$_SESSION[$name] に $valueを入れる
 function set_session($name, $value){
   $_SESSION[$name] = $value;
 }
 
-//
+// $error を$_SESSION['__errors'][]に入れる 
 function set_error($error){
   $_SESSION['__errors'][] = $error;
 }
 
-
+//get_sessionのエラーを変数に入れる
 function get_errors(){
   $errors = get_session('__errors');
   if($errors === ''){
     return array();
   }
+  
+  //'__errors',array()があれば、$errorsをreturn
   set_session('__errors',  array());
   return $errors;
 }
 
+//$_SESSION['__errors']が存在するか、$_SESSIONの数をカウント
 function has_error(){
   return isset($_SESSION['__errors']) && count($_SESSION['__errors']) !== 0;
 }
 
+//$messageを$_SESSION['__messages'][]に代入
 function set_message($message){
   $_SESSION['__messages'][] = $message;
 }
 
+//
 function get_messages(){
   $messages = get_session('__messages');
   if($messages === ''){
@@ -81,6 +86,7 @@ function get_messages(){
   return $messages;
 }
 
+//sessionでuser_idが存在しない場合
 function is_logined(){
   return get_session('user_id') !== '';
 }
