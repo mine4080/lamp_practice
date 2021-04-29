@@ -26,6 +26,6 @@ $carts = get_user_carts($db, $user['user_id']);
 //カートの中身の商品の金額を計算。変数に入れる
 $total_price = sum_carts($carts);
 
-//include_once ファイルの読み込み。すでに読み込まれている場合、読み込み和行われない。
+//include_once ファイルの読み込み。すでに読み込まれている場合、読み込みは行われない。
 //view.phpへのパス
 include_once VIEW_PATH . 'cart_view.php';
