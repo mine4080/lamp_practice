@@ -45,6 +45,7 @@ function login_as($db, $name, $password){
   return $user;
 }
 
+//get_session(user_id)を変数に入れ、get_user
 function get_login_user($db){
   $login_user_id = get_session('user_id');
 

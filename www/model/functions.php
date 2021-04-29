@@ -1,15 +1,18 @@
 <?php
 
+//$varに対して、var_dump
 function dd($var){
   var_dump($var);
   exit();
 }
 
+//$urlに指定された場所へリダイレクト
 function redirect_to($url){
   header('Location: ' . $url);
   exit;
 }
 
+//$nameが$_GETで送信された場合、$_GET[$name]をリターン
 function get_get($name){
   if(isset($_GET[$name]) === true){
     return $_GET[$name];
@@ -17,6 +20,7 @@ function get_get($name){
   return '';
 }
 
+//$nameが$_POSTで送信された場合、$_POST[$name]をリターン
 function get_post($name){
   if(isset($_POST[$name]) === true){
     return $_POST[$name];
@@ -24,6 +28,7 @@ function get_post($name){
   return '';
 }
 
+//$nameが$$_FILESで送信された場合、$_FILES[$name]をリターン
 function get_file($name){
   if(isset($_FILES[$name]) === true){
     return $_FILES[$name];
@@ -31,6 +36,7 @@ function get_file($name){
   return array();
 }
 
+//$_SESSION[$name]が存在すれば、$_SESSION[$name]をreturnする
 function get_session($name){
   if(isset($_SESSION[$name]) === true){
     return $_SESSION[$name];
@@ -38,10 +44,12 @@ function get_session($name){
   return '';
 }
 
+//$_SESSIOMN[$name] に $valueを入れる
 function set_session($name, $value){
   $_SESSION[$name] = $value;
 }
 
+//
 function set_error($error){
   $_SESSION['__errors'][] = $error;
 }
