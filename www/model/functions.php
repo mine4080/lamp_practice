@@ -104,15 +104,20 @@ function get_upload_filename($file){
 }
 
 //substr 
+//uniqid　現在の時刻を元に作成される
+//hash 文字列をハッシュ化（ランダム文字列）
+//base_convert 記号をなくす、数値と文字列に変換
+//20文字でハッシュ
 function get_random_string($length = 20){
   return substr(base_convert(hash('sha256', uniqid()), 16, 36), 0, $length);
 }
 
-//
+//アップロードされたファイルを指定のディレクトリに保存
 function save_image($image, $filename){
   return move_uploaded_file($image['tmp_name'], IMAGE_DIR . $filename);
 }
 
+//既存のイメージを削除
 function delete_image($filename){
   if(file_exists(IMAGE_DIR . $filename) === true){
     unlink(IMAGE_DIR . $filename);
@@ -122,26 +127,29 @@ function delete_image($filename){
   
 }
 
-
-
+//php_int_max 最大の文字
+//長さ比較
 function is_valid_length($string, $minimum_length, $maximum_length = PHP_INT_MAX){
   $length = mb_strlen($string);
   return ($minimum_length <= $length) && ($length <= $maximum_length);
 }
 
+//正規表現を渡して、マッチするかどうか
 function is_alphanumeric($string){
   return is_valid_format($string, REGEXP_ALPHANUMERIC);
 }
 
+//正規表現を渡して、マッチするかどうか
 function is_positive_integer($string){
   return is_valid_format($string, REGEXP_POSITIVE_INTEGER);
 }
 
+//フォーマットが正しければ1を返す
 function is_valid_format($string, $format){
   return preg_match($format, $string) === 1;
 }
 
-//
+//アップロードされたイメージの形式が違った場合、return
 function is_valid_upload_image($image){
   if(is_uploaded_file($image['tmp_name']) === false){
     set_error('ファイル形式が不正です。');
