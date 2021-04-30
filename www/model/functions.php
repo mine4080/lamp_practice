@@ -91,6 +91,9 @@ function is_logined(){
   return get_session('user_id') !== '';
 }
 
+//ファイルをアップロードするための関数
+//is_valid_upload_imageがfalseであれば、return
+//
 function get_upload_filename($file){
   if(is_valid_upload_image($file) === false){
     return '';
@@ -100,10 +103,12 @@ function get_upload_filename($file){
   return get_random_string() . '.' . $ext;
 }
 
+//substr 
 function get_random_string($length = 20){
   return substr(base_convert(hash('sha256', uniqid()), 16, 36), 0, $length);
 }
 
+//
 function save_image($image, $filename){
   return move_uploaded_file($image['tmp_name'], IMAGE_DIR . $filename);
 }
@@ -136,7 +141,7 @@ function is_valid_format($string, $format){
   return preg_match($format, $string) === 1;
 }
 
-
+//
 function is_valid_upload_image($image){
   if(is_uploaded_file($image['tmp_name']) === false){
     set_error('ファイル形式が不正です。');
@@ -150,6 +155,7 @@ function is_valid_upload_image($image){
   return true;
 }
 
+//h_function
 function h($string){
   return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
 }

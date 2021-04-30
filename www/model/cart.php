@@ -59,13 +59,10 @@ function get_user_cart($db, $user_id, $item_id){
 
 //カートの中アイテムが存在しなければインサート、存在すればアップデート
 function add_cart($db, $user_id, $item_id ) {
-  //カートの中の情報を変数に代入
   $cart = get_user_cart($db, $user_id, $item_id);
-  //情報が無ければインサート
   if($cart === false){
     return insert_cart($db, $user_id, $item_id);
   }
-  //あればカートの情報をアップデート
   return update_cart_amount($db, $cart['cart_id'], $cart['amount'] + 1);
 }
 
@@ -119,7 +116,7 @@ function purchase_carts($db, $carts){
   }
   foreach($carts as $cart){
     if(update_item_stock(
-        $db, 
+        $db,
         $cart['item_id'], 
         $cart['stock'] - $cart['amount']
       ) === false){
@@ -130,6 +127,7 @@ function purchase_carts($db, $carts){
   delete_user_carts($db, $carts[0]['user_id']);
 }
 
+//カートの中身を削除
 function delete_user_carts($db, $user_id){
   $sql = "
     DELETE FROM
@@ -141,7 +139,7 @@ function delete_user_carts($db, $user_id){
   execute_query($db, $sql);
 }
 
-
+//カートの中の商品の金額を合計
 function sum_carts($carts){
   $total_price = 0;
   foreach($carts as $cart){
@@ -152,16 +150,13 @@ function sum_carts($carts){
 
 //カートの中身チェック
 function validate_cart_purchase($carts){
-  //カートの中身がなかったら
   if(count($carts) === 0){
-    //エラーメッセージを表示
     set_error('カートに商品が入っていません。');
     return false;
   }
 
   //カートの中身を$cartに代入
   foreach($carts as $cart){
-    //itemがopenでなかったら
     if(is_open($cart) === false){
       set_error($cart['name'] . 'は現在購入できません。');
     }
@@ -170,6 +165,7 @@ function validate_cart_purchase($carts){
       set_error($cart['name'] . 'は在庫が足りません。購入可能数:' . $cart['stock']);
     }
   }
+
   //
   if(has_error() === true){
     return false;
