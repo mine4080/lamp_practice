@@ -163,7 +163,7 @@ function is_valid_upload_image($image){
   return true;
 }
 
-//h_function
-function h($string){
+//エスケープ処理
+function h_function($string){
   return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
 }
