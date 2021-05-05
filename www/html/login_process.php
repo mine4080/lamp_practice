@@ -22,7 +22,7 @@ $password = get_post('password');
 $db = get_db_connect();
 
 //ユーザー情報を変数に入れ、falseの場合、エラーメッセージ,
-LOGIN_URLへリダイレクト
+//LOGIN_URLへリダイレクト
 $user = login_as($db, $name, $password);
 if( $user === false){
   set_error('ログインに失敗しました。');
