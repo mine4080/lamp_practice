@@ -1,6 +1,6 @@
 <?php
 
-//$varに対して、var_dump
+//var_dump
 function dd($var){
   var_dump($var);
   exit();
