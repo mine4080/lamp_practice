@@ -164,6 +164,6 @@ function is_valid_upload_image($image){
 }
 
 //エスケープ処理
-function h_function($string){
+function h($string){
   return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
 }
