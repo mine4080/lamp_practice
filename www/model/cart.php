@@ -23,9 +23,11 @@ function get_user_carts($db, $user_id){
     ON
       carts.item_id = items.item_id
     WHERE
-      carts.user_id = {$user_id}
+      carts.user_id = ?
   ";
-  return fetch_all_query($db, $sql);
+  //データをバインド
+  $params = array($user_id);
+  return fetch_all_query($db, $sql, $params);
 }
 
 //カートの中身を表示させる関数
@@ -48,12 +50,13 @@ function get_user_cart($db, $user_id, $item_id){
     ON
       carts.item_id = items.item_id
     WHERE
-      carts.user_id = {$user_id}
+      carts.user_id = ?
     AND
-      items.item_id = {$item_id}
+      items.item_id = ?
   ";
-
-  return fetch_query($db, $sql);
+  //データをバインド
+  $params = array($user_id, $item_id);
+  return fetch_query($db, $sql, $params);
 
 }
 
@@ -75,10 +78,12 @@ function insert_cart($db, $user_id, $item_id, $amount = 1){
         user_id,
         amount
       )
-    VALUES({$item_id}, {$user_id}, {$amount})
+    VALUES(?, ?, ?)
   ";
+  //データをバインド
+  $params = array($item_id, $user_id, $amount);
   //execute
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, $params);
 }
 
 //カートの中のアイテムの個数をアップデート
@@ -87,13 +92,15 @@ function update_cart_amount($db, $cart_id, $amount){
     UPDATE
       carts
     SET
-      amount = {$amount}
+      amount = ?
     WHERE
-      cart_id = {$cart_id}
-    LIMIT 1
+      cart_id = ?
+    LIMIT 1 
   ";
+  //データをバインド
+  $params = array($amount, $cart_id);
   //execute
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, $params);
 }
 
 //カートの中の情報をcart_idを元に削除
@@ -102,11 +109,13 @@ function delete_cart($db, $cart_id){
     DELETE FROM
       carts
     WHERE
-      cart_id = {$cart_id}
+      cart_id = ?
     LIMIT 1
   ";
+  //データをバインド
+  $params = array($cart_id);
   //execute
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, $params);
 }
 
 //カートの中身を購入
@@ -133,10 +142,11 @@ function delete_user_carts($db, $user_id){
     DELETE FROM
       carts
     WHERE
-      user_id = {$user_id}
+      user_id = ?
   ";
-
-  execute_query($db, $sql);
+  //データをバインド
+  $params = array($user_id);
+  execute_query($db, $sql, $params);
 }
 
 //カートの中の商品の金額を合計
