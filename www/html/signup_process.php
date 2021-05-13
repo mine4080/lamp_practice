@@ -17,6 +17,12 @@ $name = get_post('name');
 $password = get_post('password');
 $password_confirmation = get_post('password_confirmation');
 
+//トークンのチェック
+if(is_valid_csrf_token(get_post('token')) === FALSE) {
+  set_error('不正なリクエストです。');
+  redirect_to(SIGNUP_URL);
+}
+
 //データベース接続に関する関数を変数に入れる
 $db = get_db_connect();
 

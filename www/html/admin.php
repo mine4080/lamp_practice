@@ -25,6 +25,9 @@ if(is_admin($user) === false){
   redirect_to(LOGIN_URL);
 }
 
+//トークンを生成
+$token = get_csrf_token();
+
 //全てのitemをセレクトする関数を変数に代入
 $items = get_all_items($db);
 //include_once ファイルを読み込み。1度読み込まれている場合は実行されない

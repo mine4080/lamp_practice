@@ -14,6 +14,12 @@ if(is_logined() === false){
   redirect_to(LOGIN_URL);
 }
 
+//トークンのチェック
+if(is_valid_csrf_token(get_post('token')) === FALSE) {
+  set_error('不正なリクエストです。');
+  redirect_to(ADMIN_URL);
+}
+
 //データベースに接続する関数を変数に入れる
 $db = get_db_connect();
 

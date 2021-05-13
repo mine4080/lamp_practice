@@ -22,6 +22,9 @@ $user = get_login_user($db);
 //openになっている商品を変数に入れる
 $items = get_open_items($db);
 
+//トークンの生成
+$token = get_csrf_token();
+
 //include_once ファイルの読み込み。すでに読み込まれている場合、読み込み和行われない。
 //view.phpへのパス
 include_once VIEW_PATH . 'index_view.php';
