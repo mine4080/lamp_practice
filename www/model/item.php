@@ -166,7 +166,7 @@ function delete_item($db, $item_id){
   ";
   //データをバインド
   $params = array($item_id);
-  return execute_query($db, $sql);
+  return execute_query($db, $sql, $params);
 }
 
 
