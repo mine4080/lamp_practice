@@ -23,6 +23,9 @@ $user = get_login_user($db);
 //$db,$user['user_id']を元に、ユーザーのカートの中身を表示する関数を変数に入れる
 $carts = get_user_carts($db, $user['user_id']);
 
+//トークンの生成
+$token = get_csrf_token();
+
 //カートの中身の商品の金額を計算。変数に入れる
 $total_price = sum_carts($carts);
 

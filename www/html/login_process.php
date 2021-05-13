@@ -18,6 +18,12 @@ $name = get_post('name');
 //postで送られてきたpasswordを変数に入れる
 $password = get_post('password');
 
+//トークンのチェック
+if(is_valid_csrf_token(get_post('token')) === FALSE) {
+  set_error('不正なリクエストです。');
+  redirect_to(LOGIN_URL);
+}
+
 //データベースへの接続に関する関数を変数に入れる
 $db = get_db_connect();
 

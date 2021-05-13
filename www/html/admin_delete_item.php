@@ -27,6 +27,12 @@ if(is_admin($user) === false){
 //postで受け取ったものを変数に代入
 $item_id = get_post('item_id');
 
+//トークンのチェック
+if(is_valid_csrf_token(get_post('token')) === FALSE) {
+  set_error('不正なリクエストです。');
+  redirect_to(ADMIN_URL);
+}
+
 //destroy_itemがtrueであればメッセージを表示
 if(destroy_item($db, $item_id) === true){
   set_message('商品を削除しました。');

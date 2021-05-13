@@ -22,6 +22,12 @@ $user = get_login_user($db);
 //postで送られてきたiitem_idを変数に入れる
 $item_id = get_post('item_id');
 
+//トークンのチェック
+if(is_valid_csrf_token(get_post('token')) === FALSE) {
+  set_error('不正なリクエストです');
+  redirect_to(HOME_URL);
+}
+
 //$db,$user['user_id'],$item_idを元に商品をカートに追加。
 if(add_cart($db,$user['user_id'], $item_id)){
   set_message('カートに商品を追加しました。');

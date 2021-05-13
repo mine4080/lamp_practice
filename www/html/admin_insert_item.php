@@ -31,6 +31,12 @@ $price = get_post('price');
 $status = get_post('status');
 $stock = get_post('stock');
 
+//トークンのチェック
+if(is_valid_csrf_token(get_post('token')) === FALSE) {
+  set_error('不正なリクエストです。');
+  redirect_to(ADMIN_URL);
+}
+
 //fileで受け取った物を変数に代入
 $image = get_file('image');
 
