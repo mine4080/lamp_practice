@@ -30,10 +30,21 @@ $user = get_login_user($db);
 $carts = get_user_carts($db, $user['user_id']);
 
 //purchase_cartsの$db,$cartsがfalseであったら、エラーメッセージ。CART_URLへリダイレクト
+$db->beginTransaction();
 if(purchase_carts($db, $carts) === false){
   set_error('商品が購入できませんでした。');
-  redirect_to(CART_URL);
+} else {
+  insert_purchace_history($db, $user['user_id']);
+  insert_purchace_details($db, $user['user_id'], $carts);
 } 
+
+// //エラーが発生していたら
+if(has_error() === TRUE && has_error() >= 1) {
+  $db->rollback();
+  redirect_to(CART_URL);
+} else {
+  $db->commit();
+}
 
 //カートの中身の商品の値段を合計し、変数に入れる
 $total_price = sum_carts($carts);

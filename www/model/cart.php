@@ -136,6 +136,39 @@ function purchase_carts($db, $carts){
   delete_user_carts($db, $carts[0]['user_id']);
 }
 
+//カートの情報をpurchace_historyに保存する
+function insert_purchace_history($db, $user_id) {
+  $sql = "
+    INSERT INTO 
+      purchace_history(
+        user_id
+      )
+    VALUES(?)
+  ";
+  $params = array($user_id);
+  return execute_query($db, $sql, $params);
+}
+
+//カートの中の詳細な情報をpurchace_detailsに保存する
+function insert_purchace_details($db, $user_id, $carts) {
+  $id = $db->lastInsertId();
+  $sql = "
+    INSERT INTO 
+      purchace_details(
+        id,
+        item_id,
+        price,
+        amount
+      )
+    VALUES(?, ?, ?, ?)
+  ";
+  foreach($carts as $cart) {
+    $params = array($id, $cart['item_id'], $cart['price'], $cart['amount']);
+    execute_query($db, $sql, $params);
+  }
+}
+
+
 //カートの中身を削除
 function delete_user_carts($db, $user_id){
   $sql = "
