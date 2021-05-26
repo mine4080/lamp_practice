@@ -169,6 +169,95 @@ function delete_item($db, $item_id){
   return execute_query($db, $sql, $params);
 }
 
+function get_purchace_histories($db, $user_id) {
+  $sql = "
+  SELECT
+    purchace_history.id,
+    purchace_history.created,
+    SUM(purchace_details.amount * purchace_details.price) AS total_price
+  FROM
+    purchace_history
+  JOIN
+    purchace_details
+  ON
+    purchace_history.id = purchace_details.id
+  WHERE
+    purchace_history.user_id = ?  
+  GROUP BY
+    purchace_history.id
+  ORDER BY 
+    created DESC 
+  ";
+  $params = array($user_id);
+  return fetch_all_query($db, $sql, $params);
+}
+
+function get_purchace_history($db, $id) {
+  $sql = "
+  SELECT
+    purchace_history.id,
+    purchace_history.created,
+    purchace_history.user_id,
+    SUM(purchace_details.amount * purchace_details.price) AS total_price
+  FROM
+    purchace_history
+  JOIN
+    purchace_details
+  ON
+    purchace_history.id = purchace_details.id
+  WHERE
+    purchace_history.id = ?  
+  GROUP BY
+    purchace_history.id
+  ORDER BY 
+    created DESC 
+  ";
+  $params = array($id);
+  return fetch_query($db, $sql, $params);
+}
+
+function get_all_purchace_histories($db) {
+  $sql = "
+  SELECT
+    purchace_history.id,
+    purchace_history.created,
+    SUM(purchace_details.amount * purchace_details.price) AS total_price
+  FROM
+    purchace_history
+  JOIN
+    purchace_details
+  ON
+    purchace_history.id = purchace_details.id
+  GROUP BY
+    purchace_history.id
+  ORDER BY 
+    created DESC
+  ";
+  $params = array();
+  return fetch_all_query($db, $sql, $params);
+ }
+ 
+ function get_purchace_details($db, $id) {
+   $sql = "
+    SELECT
+      purchace_details.id,
+      purchace_details.item_id,
+      purchace_details.price,
+      purchace_details.amount,
+      items.name
+    FROM
+      purchace_details
+    JOIN
+      items
+    ON
+      purchace_details.item_id = items.item_id  
+    WHERE
+      id = ?
+   ";
+   $params = array($id);
+   return fetch_all_query($db, $sql, $params);
+ }
+ 
 
 // 非DB
 
