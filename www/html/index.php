@@ -22,6 +22,9 @@ $user = get_login_user($db);
 //openになっている商品を変数に入れる
 $items = get_open_items($db);
 
+//購入されたアイテムの総量をセレクトする関数を呼び出し、変数へ入れる
+$all_amount = get_all_amount($db);
+
 //トークンの生成
 $token = get_csrf_token();
 
