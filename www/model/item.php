@@ -258,6 +258,31 @@ function get_all_purchace_histories($db) {
    return fetch_all_query($db, $sql, $params);
  }
  
+function get_all_amount($db) {
+  $sql = "
+  SELECT
+    purchace_details.item_id,
+    items.name,
+    items.price,
+    items.image,
+    items.stock,
+    SUM(amount) AS total_amount
+  FROM
+    purchace_details
+  JOIN
+    items
+  ON
+  purchace_details.item_id = items.item_id
+  GROUP BY
+    item_id  
+  ORDER BY
+    total_amount DESC
+  LIMIT 3
+  ";
+  $params = array();
+  return fetch_all_query($db, $sql, $params);
+} 
+
 
 // 非DB
 
